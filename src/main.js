@@ -34,6 +34,17 @@ if (process.env.NODE_ENV === 'production') {
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI, { locale_zh })
 
+import { getToken } from '@/utils/auth'
+Vue.mixin({
+  methods: {
+    getAuthHeaders() {
+      return {
+        'X-Token': getToken()
+      }
+    }
+  },
+})
+
 Vue.config.productionTip = false
 
 new Vue({

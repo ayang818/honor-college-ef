@@ -136,11 +136,11 @@ export default {
               }).catch(() => {
                 this.loading = false
               })
-          } else if (this.loginForm.type === "2") {
+          } else if (this.loginForm.type === '2') {
             // adminLogin(this.loginForm)
-            this.$store.dispatch('user/adminLogin', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
+            this.$store.dispatch('user/adminLogin',               this.loginForm).then(() => {
+              this.$router.push({ path: this.redirect || '/' })
+              this.loading = false
             })
           }
           // this.$store.dispatch('user/login', this.loginForm)

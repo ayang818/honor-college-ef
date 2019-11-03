@@ -59,15 +59,34 @@ export const constantRoutes = [
     component: Layout,
     name: 'Excel',
     meta: {
-      title: 'Excel',
+      title: 'Excel操作',
       icon: 'excel'
     },
     children: [
       {
-        path: 'upload-excel',
-        component: () => import('@/views/excel/upload-excel'),
-        name: 'UploadExcel',
-        meta: { title: '导入excel' }
+        path: 'previewexcel',
+        component: () => import('@/views/excel/preview'),
+        name: 'previewexcel',
+        meta: { title: '预览excel' }
+      },
+      {
+        path: 'competition',
+        component: () => import('@/components/empty'),
+        name: 'competition',
+        meta: { title: '竞赛相关' },
+        children: [
+          {
+            path: 'upload',
+            component: () => import('@/views/excel/competition-upload'),
+            name: 'uploadexcel',
+            meta: { title: '上传excel' }
+          },
+          {
+            path: 'downloadexcel',
+            name: 'downloadexcel',
+            meta: { title: '下载excel模板' }
+          }
+        ]
       }
     ]
   },
@@ -161,17 +180,6 @@ export const constantRoutes = [
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index'),
         meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
       }
     ]
   },

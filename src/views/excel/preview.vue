@@ -1,11 +1,8 @@
 <template>
   <div class="app-container">
     <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
-    <el-button style="float: right; margin: 1rem 0;" size="mini" type="primary" @click="handleUpload" v-if="tableData.length != 0">
-        确认上传
-    </el-button>
     <h2 style="text-align: center;" v-if="tableData.length != 0">预览excel</h2>
-    <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
+    <el-table :data="tableData" border highlight-current-row height='1000' style="width: 100%;margin-top:20px;">
       <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
     </el-table>
   </div>
@@ -36,9 +33,6 @@ export default {
         type: 'warning'
       })
       return false
-    },
-    handleUpload() {
-      this.$store.dispatch('excel/upload_competition_excel', this.tableData)
     },
     handleSuccess({ results, header }) {
       this.tableData = results
