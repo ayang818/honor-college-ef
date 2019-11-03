@@ -127,18 +127,16 @@ export default {
         if (valid) {
           this.loading = true
           if (this.loginForm.type === "1") {
-            const res = login(this.loginForm)
-            console.log(res.data)
-              .then((res) => {
-              console.log(res.data)
+            login(this.loginForm)
+              .then(res => {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
               }).catch(() => {
                 this.loading = false
               })
           } else if (this.loginForm.type === "2") {
-            adminLogin(this.loginForm)
-            .then(() => {
+            adminLogin(this.loginForm).then(res => {  
+            console.log(res)         
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
             }).catch(() => {
