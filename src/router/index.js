@@ -90,7 +90,31 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/honor',
+    component: Layout,
+    name: 'Honor',
+    meta: {
+      title: '荣誉操作',
+      icon: 'form'
+    },
+    children: [
+      {
+        path: 'competition',
+        component: () => import('@/components/empty'),
+        name: 'competition',
+        meta: { title: '竞赛相关' },
+        children: [
+          {
+            path: 'table',
+            component: () => import('@/views/honor/competition/table'),
+            name: 'table',
+            meta: { title: '竞赛成果' }
+          },
+        ]
+      }
+    ]
+  },
   {
     path: '/example',
     component: Layout,
