@@ -76,8 +76,8 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 1) {
+        callback(new Error('The password can not be null'))
       } else {
         callback()
       }
@@ -137,9 +137,8 @@ export default {
                 this.loading = false
               })
           } else if (this.loginForm.type === "2") {
-            adminLogin(this.loginForm).then(res => {
-            // store set token!!! but how???
-            setToken(res.token);
+            // adminLogin(this.loginForm)
+            this.$store.dispatch('user/adminLogin', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
             })
@@ -149,6 +148,7 @@ export default {
           console.log('error submit!!')
           return false
         }
+        // this.$store.dispatch('user/login', this.loginForm)
       })
     }
   }
