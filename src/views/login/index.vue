@@ -63,6 +63,8 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import {login, adminLogin} from "@/api/user"
+import { setToken,getToken } from '@/utils/auth'
+
 export default {
   name: 'Login',
   data() {
@@ -135,12 +137,11 @@ export default {
                 this.loading = false
               })
           } else if (this.loginForm.type === "2") {
-            adminLogin(this.loginForm).then(res => {  
-            console.log(res)         
+            adminLogin(this.loginForm).then(res => {
+            // store set token!!! but how???
+            setToken(res.token);
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
-            }).catch(() => {
-              this.loading = false
             })
           }
           // this.$store.dispatch('user/login', this.loginForm)
