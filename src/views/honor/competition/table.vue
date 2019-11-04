@@ -2,7 +2,8 @@
     <div>
       <el-form>
         <el-form-item label="选择展示列">
-           <el-checkbox  v-model="selectShownData" @change="handleCheckAllChange">全不选</el-checkbox>
+           <el-radio v-model="label"  label="1" @change="selectAll">全选</el-radio>
+           <el-radio v-model="label"  label="2"  @change="selectNone">全不选</el-radio>
           <el-checkbox-group v-model="selectShownData">
             <el-checkbox v-for="(value, index) in dataMap" :key="index" :label="value" :v-model="index"></el-checkbox>
             <el-button type="primary" @click="select">
@@ -43,6 +44,7 @@ export default {
       selectShownData: [],
       showMap: {},
       dataMap: {},
+      label: "",
     };
   },
   created() {
@@ -97,8 +99,13 @@ export default {
       Object.assign({}, this.showMap, map);
       this.$forceUpdate();
     },
-    handleCheckAllChange() {
+    selectNone() {
       this.selectShownData = [];
+    },
+    selectAll() {
+      for (let index in this.dataMap) {
+        this.selectShownData.push(this.dataMap[index]);
+      }
     }
   },
 }; 
