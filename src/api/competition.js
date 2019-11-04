@@ -6,3 +6,10 @@ export function list(limit, offset) {
       method: 'get',
       params: {limit, offset}
 })}
+
+export function count() {
+  return request({
+      url: '/admin/honor/competition/count',
+      method: 'get'
+  })
+}

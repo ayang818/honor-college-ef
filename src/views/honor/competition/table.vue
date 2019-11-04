@@ -5,7 +5,7 @@
            <el-radio v-model="label"  label="1" @change="selectAll">全选</el-radio>
            <el-radio v-model="label"  label="2"  @change="selectNone">全不选</el-radio>
           <el-checkbox-group v-model="selectShownData">
-            <el-checkbox v-for="(value, index) in dataMap" :key="index" :label="value" :v-model="index"></el-checkbox>
+            <el-checkbox v-for="(value, index) in dataMap" :key="index" :label="value" :v-model="index" @change="selectPart"></el-checkbox>
             <el-button type="primary" @click="select">
               选择
             </el-button>
@@ -31,11 +31,19 @@
           </el-table-column>
         </template> 
       </el-table>
+       <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-sizes="[20, 40, 60, 80]"
+      :page-size="20"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="pageNum">
+    </el-pagination>   
     </div>
     </template>
     
 <script>
-import {list} from '@/api/competition';
+import {list, count} from '@/api/competition';
 
 export default {
   data() {
@@ -45,6 +53,9 @@ export default {
       showMap: {},
       dataMap: {},
       label: "",
+      pageNum: 1,
+      currentPage: 1,
+      currentSize: 20,
     };
   },
   created() {
@@ -71,8 +82,14 @@ export default {
       }
       this.tableData = res;
     })
+    this.getCount();
   },
   methods: {
+    getCount() {
+      count().then((res) => {
+        this.pageNum = res;
+      })
+    },
     select() {
       for (let index in this.showMap) {
         this.showMap[index] = true;
@@ -106,6 +123,23 @@ export default {
       for (let index in this.dataMap) {
         this.selectShownData.push(this.dataMap[index]);
       }
+    },
+    selectPart() {
+      this.label = "3";
+    },
+    handleSizeChange(val) {
+      this.currentSize = val;
+      list(this.currentSize, (this.currentPage-1)*this.currentSize).then(res => {
+        this.tableData = res;
+      })
+      this.$forceUpdate();
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      list(this.currentSize, (this.currentPage-1)*this.currentSize).then(res => {
+        this.tableData = res;
+      })
+      this.$forceUpdate();
     }
   },
 }; 
