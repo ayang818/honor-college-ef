@@ -7,4 +7,3 @@ export function upload_competition_excel(data) {
       data
     })
 }
-
