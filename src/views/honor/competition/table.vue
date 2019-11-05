@@ -10,7 +10,6 @@
               选择
             </el-button>         
           </el-checkbox-group>
-          
         </el-form-item>
         <el-form-item label="搜索">
           <el-row :gutter="20">
@@ -31,10 +30,10 @@
         :data="tableData"
         border
         style="width: 100%">
-        <el-table-column
+        <!-- <el-table-column
         type="selection"
         width="55">
-        </el-table-column>
+        </el-table-column> -->
         <template v-for="(value, index) in dataMap">
             <el-table-column
             :key="index"
@@ -145,22 +144,22 @@ export default {
       this.label = "3";
     },
     handleSizeChange(val) {
+      this.currentSize = val;
       if (this.searchItem) {
         this.search();
         return;
       }
-      this.currentSize = val;
       list(this.currentSize, (this.currentPage-1)*this.currentSize).then(res => {
         this.tableData = res;
       })
       this.$forceUpdate();
     },
     handleCurrentChange(val) {
+      this.currentPage = val;
       if (this.searchItem) {
         this.search();
         return;
       }
-      this.currentPage = val;
       list(this.currentSize, (this.currentPage-1)*this.currentSize).then(res => {
         this.tableData = res;
       })
