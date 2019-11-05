@@ -83,6 +83,7 @@ export const constantRoutes = [
           },
           {
             path: 'downloadexcel',
+            component: () => import('@/views/excel/downloadDemoExcel'),
             name: 'downloadexcel',
             meta: { title: '下载excel模板' }
           }
