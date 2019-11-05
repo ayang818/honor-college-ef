@@ -13,3 +13,19 @@ export function count() {
       method: 'get'
   })
 }
+
+export function search(data) {
+  return request({
+    url: '/admin/honor/competition/search',
+    method: 'post',
+    data
+  })
+}
+
+export function countBykeyWord(keyword) {
+  return request({
+    url: '/admin/honor/competition/countBySearch',
+    method: 'get',
+    params: {keyword}
+  })
+}

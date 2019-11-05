@@ -8,8 +8,23 @@
             <el-checkbox v-for="(value, index) in dataMap" :key="index" :label="value" :v-model="index" @change="selectPart"></el-checkbox>
             <el-button type="primary" @click="select">
               选择
-            </el-button>
+            </el-button>         
           </el-checkbox-group>
+          
+        </el-form-item>
+        <el-form-item label="搜索">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-input
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search"
+            v-model="searchItem">
+            </el-input>
+          </el-col>
+          <el-col :span="6">
+             <el-button icon="el-icon-search" @click="search" circle></el-button>
+          </el-col>  
+          </el-row>
         </el-form-item>
       </el-form>
       <el-table
@@ -43,7 +58,7 @@
     </template>
     
 <script>
-import {list, count} from '@/api/competition';
+import {list, count, search, countBykeyWord} from '@/api/competition';
 
 export default {
   data() {
@@ -56,6 +71,8 @@ export default {
       pageNum: 1,
       currentPage: 1,
       currentSize: 20,
+      searchItem: "",
+      searchDto: {}
     };
   },
   created() {
@@ -76,7 +93,7 @@ export default {
     this.dataMap.pass = "是否通过";
     this.dataMap.gmtCreate = "创建时间";
     this.dataMap.gmtModified = "修改时间";
-    list(10, 0).then(res => {
+    list(20, 0).then(res => {
       for (const key in this.dataMap) {
           this.showMap[key] = true;
       }
@@ -128,6 +145,10 @@ export default {
       this.label = "3";
     },
     handleSizeChange(val) {
+      if (this.searchItem) {
+        this.search();
+        return;
+      }
       this.currentSize = val;
       list(this.currentSize, (this.currentPage-1)*this.currentSize).then(res => {
         this.tableData = res;
@@ -135,9 +156,25 @@ export default {
       this.$forceUpdate();
     },
     handleCurrentChange(val) {
+      if (this.searchItem) {
+        this.search();
+        return;
+      }
       this.currentPage = val;
       list(this.currentSize, (this.currentPage-1)*this.currentSize).then(res => {
         this.tableData = res;
+      })
+      this.$forceUpdate();
+    },
+    search() {
+      this.searchDto.keyword = this.searchItem;
+      this.searchDto.limit = this.currentSize;
+      this.searchDto.offset = (this.currentPage-1)*this.currentSize;
+      search(this.searchDto).then((res) => {
+        this.tableData = res;
+      })
+      countBykeyWord(this.searchItem).then((res) => {
+        this.pageNum = res;
       })
       this.$forceUpdate();
     }
